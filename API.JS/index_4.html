@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      function fetchUserData(userId) {
+        return new Promise((resolve, reject) => {
+          setTimeout(() => {
+            if (userId === 1) {
+              resolve({ id: 1, name: "John Doe", age: 30 });
+            } else if (userId === 2) {
+              resolve({ id: 2, name: "melike yaprak", age: 25 });
+            } else {
+              reject(new Error("Hatalı Veri Girişi Yapıldı..."));
+            }
+          }, 2000);
+        });
+      }
+
+      function fetchUserPosts(userId) {
+        return new Promise((resolve, reject) => {
+          setTimeout(() => {
+            if (userId === 1) {
+              resolve([
+                { id: 1, title: "Post 1", body: "Lorem ipsum dolor sit amet" },
+                { id: 2, title: "Post 2", body: "Consectetur adipiscing elit" },
+              ]);
+            } else if (userId === 2) {
+              resolve([
+                { id: 3, title: "Post 3", body: "Lorem ipsum dolor sit amet" },
+              ]);
+            } else {
+              reject(new Error("Hatalı Gönderi Girişi:"));
+            }
+          }, 1500);
+        });
+      }
+
+      async function fetchUserDataWithPosts() {
+        try {
+          const userData = fetchUserData(userId);
+          console.log("Veri Girişi:", userData);
+
+          const userPosts = fetchUserPosts(userId);
+          console.log("Gönderiler:", userPosts);
+        } catch (error) {
+          console.log(error.message);
+        }
+      }
+    </script>
+  </body>
+</html>
