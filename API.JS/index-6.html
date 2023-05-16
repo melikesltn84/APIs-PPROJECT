@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      function fetchDataFromAPI() {
+        return new Promise((resolve, reject) => {
+          setTimeout(() => {
+            const randomNumber = Math.floor(Math.random() * 10);
+            if (randomNumber < 100) {
+              resolve(randomNumber);
+            } else {
+              reject(new Error("API Hatası:Veri Alınamadı"));
+            }
+          }, 2000);
+        });
+      }
+
+      function processResult(result) {
+        return new Promise((resolve, reject) => {
+          setTimeout(() => {
+            if (result % 2 === 0) {
+              resolve(`Sonuç ${result} çift sayıdır`);
+            } else {
+              reject(new Error(`Sonuç ${result} tek sayıdır`));
+            }
+          }, 1500);
+        });
+      }
+
+      async function fetchDataAndProcess() {
+        try {
+          const data = await fetchDataFromAPI();
+          console.log("API verisi:", data);
+
+          const processedResult = await processResult(data);
+          console.log("İşlenmiş sonuç:", processedResult);
+        } catch (error) {
+          throw error;
+        }
+      }
+
+      fetchDataAndProcess()
+        .then(() => console.log("işlem tamamlandı"))
+        .catch((error) => console.log("Hata:", error.message));
+    </script>
+  </body>
+</html>
