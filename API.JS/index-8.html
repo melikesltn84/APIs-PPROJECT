@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      function fetcData(url) {
+        return new Promise((resolve, reject) => {
+          fetch(url)
+            .then((response) => {
+              if (!response.ok) {
+                throw new Error("HTTP error, status = " + response.status);
+              }
+
+              return response.json();
+            })
+            .then((data) => {
+              resolve(data);
+            })
+            .catch((error) => {
+              reject(error);
+            });
+        });
+      }
+
+      async function fetchAndProcessData() {
+        try {
+          const url = "https://api.example.com/data";
+          const data = await fetcData(url);
+          console.log("Data:", data);
+        } catch (error) {
+          console.error(error.message);
+        }
+      }
+
+      fetchAndProcessData();
+    </script>
+  </body>
+</html>
