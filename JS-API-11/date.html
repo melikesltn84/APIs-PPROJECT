@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      async function getHour() {
+        try {
+          const date = await getCurrentDate();
+          const hour = date.getHours();
+          const minutes = date.getMinutes();
+          const seconds = date.getSeconds();
+          console.log(`Saat- ${hour}:${minutes}:${seconds}`);
+        } catch (err) {
+          console.log("Saat alınamadı:", error.message);
+        }
+      }
+
+      function getCurrentDate() {
+        return new Promise((resolve, reject) => {
+          const date = new Date();
+          if (date) {
+            resolve(date);
+          } else {
+            reject(new Error("Tarih alınamadı"));
+          }
+        });
+      }
+
+      getHour();
+    </script>
+  </body>
+</html>
