@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      async function getCountryData(country) {
+        try {
+          const response = await fetch(
+            `https://restcountries.com/v3.1/name/${country}`
+          );
+
+          if (!response.ok) {
+            throw new Error("Ülke bulunamadı.");
+          }
+
+          const data = await response.json();
+          const countryData = data[0];
+          const area = countryData.area;
+          const population = countryData.population;
+          return { area, population };
+        } catch (error) {
+          console.log("Hata:", error.message);
+        }
+      }
+
+      async function displayCountryData(country) {
+        const countryData = await getCountryData(country);
+        if (countryData) {
+          console.log("Ülke:", country);
+          console.log("Yüzölçüm:", countryData.area + "km2");
+          console.log("Nüfus:", countryData.population);
+        }
+      }
+      displayCountryData("Turkey");
+      displayCountryData("China");
+    </script>
+  </body>
+</html>
