@@ -28,6 +28,29 @@
       }
 
       getLocation();
+      
+  // Konum bilgisini almak için asenkron fonksiyon (farklı şekilde kodlama)
+//async function getLocation() {
+ // try {
+  //  const position = await getCurrentPosition();
+    //const { latitude, longitude } = position.coords;
+    //console.log(`Konum: Enlem: ${latitude}, Boylam: ${longitude}`);
+ // } catch (error) {
+  //  console.log('Konum alınamadı:', error.message);
+//  }
+//}
+
+// Konum bilgisini döndüren Promise tabanlı fonksiyon
+//function getCurrentPosition() {
+ // return new Promise((resolve, reject) => {
+   // navigator.geolocation.getCurrentPosition(resolve, reject);
+ // });
+//}
+
+// getLocation fonksiyonunu çağırarak konum bilgisini al
+//getLocation();
+
+     
     </script>
   </body>
 </html>
