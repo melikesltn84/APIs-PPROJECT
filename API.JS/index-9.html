@@ -8,108 +8,111 @@
   </head>
   <body>
     <script>
-      document
-        .querySelector("#btnSearch")
-        .addEventListener("click", handleClick);
+      // async function getCountryFlag(country) {
+      //   try {
+      //     const response = await fetch(
+      //       `https://restcountries.com/v3.1/name/${country}`
+      //     );
 
-      async function handleClick() {
-        const text = document.querySelector("#txtSearch").value;
-        document.querySelector("#details").style.opacity = 0;
-        try {
-          const data = await getCountry(text);
-          renderCountry(data);
-          const neighbors = await getNeighbors(data);
-          renderNeighbors(neighbors);
-        } catch (err) {
-          renderError(err);
-        }
-      }
+      //     if (!response.ok) {
+      //       throw new Error("Ülke bulunamadı!!!");
+      //     }
 
-      async function getCountry(country) {
+      //     const data = await response.json();
+      //     const flagURL = data[0].flags.png;
+      //     const countryName = data[0].name.common;
+      //     return { flagURL, countryName };
+      //   } catch (error) {
+      //     console.log(error.message);
+      //   }
+      // }
+
+      // async function main(country) {
+      //   try {
+      //     const countryFlag = await getCountryFlag(country);
+      //     const imgElement = document.createElement("img");
+      //     imgElement.src = countryFlag.flagURL;
+      //     imgElement.alt = `${countryFlag.countryName} bayrağı`;
+      //     document.body.appendChild(imgElement);
+      //     console.log(`Bayrak, ${countryFlag.countryName} ülkesine aittir`);
+      //   } catch (err) {
+      //     console.log("Hata:", err.message);
+      //   }
+      // }
+
+      // main("Türkiye");
+
+      // function getCountryFlag(country) {
+      //   return new Promise(async (resolve, reject) => {
+      //     try {
+      //       const response = await fetch(
+      //         `https://restcountries.com/v3.1/name/${country}`
+      //       );
+
+      //       if (!response.ok) {
+      //         throw new Error("Ülke bulunamadı!!!");
+      //       }
+
+      //       const data = await response.json();
+      //       const flagURL = data[0].flags.png;
+      //       const countryName = data[0].name.common;
+      //       resolve({ flagURL, countryName });
+      //     } catch (err) {
+      //       reject(err);
+      //     }
+      //   });
+      // }
+
+      // async function main(country) {
+      //   try {
+      //     const countryFlag = await getCountryFlag(country);
+      //     const imgElement = document.createElement("img");
+      //     imgElement.src = countryFlag.flagURL;
+      //     imgElement.alt = `${countryFlag.countryName} bayrağı`;
+      //     document.body.appendChild(imgElement);
+      //      console.log(`Bayrak ${countryFlag.countryName} ülkesine ait`);
+      //   } catch (err) {
+      //     console.log(err.message);
+      //   }
+      // }
+
+      // main("Turkey");
+
+      async function getCountryFlag(country) {
         const response = await fetch(
-          "https://restcountries.com/v3.1/name/" + country
+          `https://restcountries.com/v3.1/name/${country}`
         );
-        if (!response.ok) throw new Error("Ülke bulunamadı.");
+        if (!response.ok) {
+          throw new Error("ülke bulunamadı!");
+        }
+
         const data = await response.json();
-        return data[0];
+        const flagURL = data[0].flags.png;
+        console.log(flagURL);
+        const countryName = data[0].name.common;
+        return { flagURL, countryName };
       }
 
-      async function getNeighbors(countryData) {
-        const countries = countryData.borders;
-        if (!countries) throw new Error("Komşu ülke bulunamadı.");
-        const response = await fetch(
-          "https://restcountries.com/v3.1/alpha?codes=" + countries.toString()
-        );
-        const neighbors = await response.json();
-        return neighbors;
-      }
+      async function main(country) {
+        try {
+          const countryFlag = await getCountryFlag(country);
+          const imgElement = document.createElement("img");
+          imgElement.src = countryFlag.flagURL;
+          imgElement.alt = `${countryFlag.countryName} bayrağıdır`;
+          document.body.appendChild(imgElement);
+          const divElement = document.createElement("div");
+          document.body.appendChild(divElement);
 
-      function renderCountry(data) {
-        document.querySelector("#country-details").innerHTML = "";
-        document.querySelector("#neighbors").innerHTML = "";
+          const h2Element = document.createElement("h2");
+          h2Element.innerText = `${countryFlag.countryName}`;
 
-        let html = `                   
-    <div class="col-4">
-      <img src="${data.flags.png}" alt="" class="img-fluid">
-    </div>
-    <div class="col-8">
-      <h3 class="card-title">${data.name.common}</h3>
-      <hr>
-      <div class="row">
-        <div class="col-4">Nüfus: </div>
-        <div class="col-8">${(data.population / 1000000).toFixed(
-          1
-        )} milyon</div>
-      </div>
-      <div class="row">
-        <div class="col-4">Resmi Dil: </div>
-        <div class="col-8">${Object.values(data.languages)}</div>
-      </div>
-      <div class="row">
-        <div class="col-4">Başkent: </div>
-        <div class="col-8">${data.capital[0]}</div>
-      </div>
-      <div class="row">
-        <div class="col-4">Para Birimi: </div>
-        <div class="col-8">${Object.values(data.currencies)[0].name} (${
-          Object.values(data.currencies)[0].symbol
-        })</div>
-      </div>
-    </div>
-  `;
-
-        document.querySelector("#details").style.opacity = 1;
-        document.querySelector("#country-details").innerHTML = html;
-      }
-
-      function renderNeighbors(data) {
-        let html = "";
-        for (let country of data) {
-          html += `
-      <div class="col-2 mt-2">
-        <div class="card">
-          <img src="${country.flags.png}" class="card-img-top">
-          <div class="card-body">
-            <h6 class="card-title">${country.name.common}</h6>
-          </div>
-        </div>
-      </div>
-    `;
+          divElement.appendChild(h2Element);
+        } catch (error) {
+          console.log(error.message);
         }
-        document.querySelector("#neighbors").innerHTML = html;
       }
 
-      function renderError(err) {
-        const html = `
-    <div class="alert alert-danger">
-      ${err.message}
-    </div>
-  `;
-        setTimeout(function () {
-          document.querySelector("#errors").innerHTML = "";
-        }, 3000);
-        document.querySelector("#errors").innerHTML = html;
-      }
+      main("germany");
     </script>
   </body>
 </html>
